@@ -1,0 +1,21 @@
+name: Verificar AgroCampo
+on: [push, pull_request]
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - run: bash ./gradlew :shared:jvmTest :shared:testDebugUnitTest :androidApp:assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apk-y-pruebas
+          path: |
+            androidApp/build/outputs/apk/debug/*.apk
+            shared/build/reports/tests/

@@ -15,7 +15,8 @@ data class AgroUiState(
     val seleccionado: Lote? = null, val perfil: Boolean = false, val valle: String = "", val busqueda: String = "",
     val ultimaSync: String? = null, val resumen: String? = null, val error: ErrorApi? = null,
     val editando: Labor? = null, val formulario: Boolean = false, val guardando: Boolean = false,
-    val erroresCampo: Map<String, String> = emptyMap(), val editables: Set<Long> = emptySet()
+    val erroresCampo: Map<String, String> = emptyMap(), val editables: Set<Long> = emptySet(),
+    val estadoCampania: Boolean? = null
 )
 
 class AgroViewModel(private val sesiones: SesionRepository, private val repo: AgroRepository,
@@ -43,13 +44,16 @@ class AgroViewModel(private val sesiones: SesionRepository, private val repo: Ag
     private fun observarLista() {
         listaJob?.cancel()
         listaJob = viewModelScope.launch {
-            repo.observarLotes(mutable.value.valle, mutable.value.busqueda).collect { lotes ->
+            repo.observarLotes(mutable.value.valle, mutable.value.busqueda, mutable.value.estadoCampania).collect { lotes ->
                 mutable.update { it.copy(lotes = lotes, seleccionado = it.seleccionado?.let { previo -> lotes.find { l -> l.id == previo.id } ?: previo }) }
             }
         }
     }
     fun filtrar(valle: String = mutable.value.valle, busqueda: String = mutable.value.busqueda) {
         mutable.update { it.copy(valle = valle, busqueda = busqueda) }; observarLista()
+    }
+    fun filtrarEstado(cerrada: Boolean?) {
+        mutable.update { it.copy(estadoCampania = cerrada) }; observarLista()
     }
     fun login(usuario: String, contrasena: String) = viewModelScope.launch {
         mutable.update { it.copy(cargando = true, error = null) }

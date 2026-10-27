@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -14,6 +15,18 @@ import androidx.compose.ui.unit.dp
     Spacer(Modifier.height(12.dp))
     OutlinedTextField(s.busqueda, { vm.filtrar(busqueda = it) }, label = { Text("Buscar por nombre o código") }, singleLine = true, modifier = Modifier.fillMaxWidth())
     OutlinedTextField(s.valle, { vm.filtrar(valle = it) }, label = { Text("Valle (vacío para todos)") }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+    var menuEstado by remember { mutableStateOf(false) }
+    Box {
+        OutlinedButton(onClick = { menuEstado = true }) {
+            Text(when (s.estadoCampania) { false -> "Solo campañas abiertas"; true -> "Solo campañas cerradas"; null -> "Todas las campañas" })
+        }
+        DropdownMenu(expanded = menuEstado, onDismissRequest = { menuEstado = false }) {
+            DropdownMenuItem(text = { Text("Todas las campañas") }, onClick = { vm.filtrarEstado(null); menuEstado = false })
+            DropdownMenuItem(text = { Text("Solo campañas abiertas") }, onClick = { vm.filtrarEstado(false); menuEstado = false })
+            DropdownMenuItem(text = { Text("Solo campañas cerradas") }, onClick = { vm.filtrarEstado(true); menuEstado = false })
+        }
+    }
+    Text("${s.lotes.size} lotes encontrados", style = MaterialTheme.typography.labelMedium)
     if (s.lotes.isEmpty()) {
         Text(if (s.sincronizando) "Cargando el padrón…" else "No hay lotes para estos filtros. Sincronice para obtener el padrón.", modifier = Modifier.padding(vertical = 24.dp))
     }

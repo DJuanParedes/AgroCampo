@@ -173,6 +173,16 @@ class RegresionesTest {
         assertFalse(puedeEditarLabor(laborRegresion(10).copy(creadaEn = "2026-10-26T16:00:00-05:00"), sesion, ahora))
         assertTrue(puedeEditarLabor(laborRegresion(10).copy(creadaEn = "2026-10-27T12:00:00Z"), sesion, ahora))
     }
+    @Test fun `un formulario con ID provisional ya sustituido no crea un duplicado`() = runTest {
+        val e = Entorno(MockEngine { error("No debe consultar red") })
+        try {
+            val provisional = e.repo.guardar(laborRegresion())
+            e.local.sustituir(provisional.id, laborRegresion(10).copy(pendiente = false))
+            assertFailsWith<ErrorApi.NoEncontrado> { e.repo.guardar(provisional.copy(cantidad = 4.0)) }
+            assertTrue(e.local.pendientes().isEmpty())
+            assertEquals(1, e.repo.observarLabores(1).first().size)
+        } finally { e.cerrar() }
+    }
     @Test fun `migracion de SQLite conserva los pendientes de version 1`() = runTest {
         val e = Entorno(MockEngine { error("No debe consultar red") })
         try {

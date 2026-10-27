@@ -11,7 +11,7 @@ Versión 1.1, 27 de octubre de 2026. Se conserva la versión original y sus fech
 | Pendiente sin forma de recuperación | Descartar cambio local solo por su propietario | No requiere privilegio de eliminación y no envía DELETE |
 | Reintentar hace otra operación | Acción tipada para cierre o envío | Se repite cierre; el envío no crea otro registro |
 | Horas locales ambiguas | Instantes UTC desde el servicio hasta el cálculo del plazo | Mismo resultado con Z y -05:00 |
-| Falta cobertura adversa | MockEngine, SQLite en memoria y ViewModel con reloj de pruebas | 24 pruebas compartidas en dos destinos |
+| Falta cobertura adversa | MockEngine, SQLite en memoria y ViewModel con reloj de pruebas | 25 pruebas compartidas en dos destinos |
 
 La migración SQLite 1 a 2 crea conflicto y conserva registros y cola anteriores.
 El APK 1.1 se instala como actualización de la app 1.0, sin borrar su base.

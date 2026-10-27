@@ -35,6 +35,8 @@ class AgroRepositoryImpl(private val api: AgroApi, private val local: BaseLocal,
             val u = sesion()
             val permiso = if (labor.id == 0L) "LABOR_CREAR" else "LABOR_EDITAR"
             if (permiso !in u.privilegios) throw ErrorApi.SinPrivilegio("No posee el privilegio requerido")
+            if (labor.id != 0L && local.labor(labor.id) == null)
+                throw ErrorApi.NoEncontrado("El registro local ya cambió. Actualice la lista antes de volver a guardarlo")
             val id = if (labor.id == 0L) local.idLocal() else labor.id
             val fila = labor.copy(id = id, pendiente = true,
                 responsable = if (labor.id == 0L) u.nombre else labor.responsable,

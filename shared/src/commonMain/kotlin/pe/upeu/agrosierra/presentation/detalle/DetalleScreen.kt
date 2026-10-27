@@ -12,7 +12,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import java.time.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 import pe.upeu.agrosierra.domain.model.*
 import pe.upeu.agrosierra.presentation.listado.*
 
@@ -62,7 +64,7 @@ import pe.upeu.agrosierra.presentation.listado.*
 @Composable private fun FormularioLabor(s: AgroUiState, vm: AgroViewModel) {
     val labor = s.editando
     var tipo by rememberSaveable(labor?.id) { mutableStateOf(labor?.tipo ?: TipoLabor.RIEGO) }
-    var fecha by rememberSaveable(labor?.id) { mutableStateOf(labor?.fecha ?: LocalDate.now().toString()) }
+    var fecha by rememberSaveable(labor?.id) { mutableStateOf(labor?.fecha ?: Clock.System.todayIn(TimeZone.currentSystemDefault()).toString()) }
     var cantidad by rememberSaveable(labor?.id) { mutableStateOf(labor?.cantidad?.toString() ?: "") }
     var observacion by rememberSaveable(labor?.id) { mutableStateOf(labor?.observacion ?: "") }
     Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {

@@ -1,6 +1,5 @@
 package pe.upeu.agrosierra.presentation.navigation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -20,7 +19,6 @@ import pe.upeu.agrosierra.presentation.perfil.PerfilScreen
 @Composable fun AgroApp(s: AgroUiState, vm: AgroViewModel) {
     val sesion = s.sesion
     if (sesion == null) { LoginScreen(s, vm::login); return }
-    BackHandler(s.seleccionado != null || s.perfil || s.formulario) { vm.volver() }
     Scaffold(topBar = {
         TopAppBar(title = { Text(if (s.perfil) "Mi perfil" else if (s.formulario) "${if (s.editando == null) "Registrar" else "Corregir"} labor" else s.seleccionado?.codigo ?: "AgroCampo") },
             navigationIcon = { if (s.seleccionado != null || s.perfil) IconButton(onClick = vm::volver) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Volver") } },

@@ -108,3 +108,18 @@ Las evidencias y la lista de cotejo se guardan en evidencias/.
 Rama `sc-a-paredes`. El padrón combina valle, nombre/código y estado (todas, solo abiertas, solo cerradas).
 La combinación se ejecuta en SQLDelight y funciona sin conexión. El composable representa el resultado observado.
 Véase docs/SC-A.md y las dos pruebas adicionales de commonTest.
+
+## Versión 1.1: recuperación y sesiones aisladas
+
+Una labor rechazada conserva el motivo en la base local y no bloquea los otros envíos ni la descarga.
+El formulario mantiene los mensajes por campo. Desde el detalle, el propietario puede corregir o descartar
+su cambio pendiente; descartar no elimina ningún dato del servidor y no requiere LABOR_ELIMINAR.
+
+Cada operación fija su token y comprueba que siga siendo la sesión activa antes de enviar y aplicar respuestas.
+Cerrar sesión cancela sus corrutinas. Un 401 antiguo no puede borrar una sesión nueva ni un perfil antiguo restaurarla.
+El botón Reintentar conserva la acción: cierre de campaña o envío del pendiente, sin crear otro registro local.
+creadaEn se recibe como instante UTC; el plazo de edición no depende de la zona horaria del dispositivo.
+
+La migración SQLDelight 1 a 2 añade conflicto sin borrar lotes, labores o pendientes existentes.
+Las regresiones cubren cola mixta, cuentas, 401 tardío, CRUD offline, respuesta perdida, descarte, migración,
+reintentos del ViewModel y cálculo de las 24 horas. Se conserva v1.0-unidad2 y se publica v1.1-unidad2.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.upeu.agrosierra.RegresionesTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-27T20:08:58" hostname="JUAN_PC" time="0.517">
+  <properties/>
+  <testcase name="401 de una sesion antigua no borra el nuevo login" classname="pe.upeu.agrosierra.RegresionesTest" time="0.023"/>
+  <testcase name="un tecnico puede descartar su alta local sin privilegio de eliminar" classname="pe.upeu.agrosierra.RegresionesTest" time="0.019"/>
+  <testcase name="un rechazo no bloquea los otros pendientes ni la descarga" classname="pe.upeu.agrosierra.RegresionesTest" time="0.055"/>
+  <testcase name="migracion de SQLite conserva los pendientes de version 1" classname="pe.upeu.agrosierra.RegresionesTest" time="0.017"/>
+  <testcase name="edicion offline y eliminacion offline se envian sin deserializar 204" classname="pe.upeu.agrosierra.RegresionesTest" time="0.081"/>
+  <testcase name="respuesta de POST perdida se reintenta con la misma clave sin duplicar" classname="pe.upeu.agrosierra.RegresionesTest" time="0.059"/>
+  <testcase name="PUT 404 conserva conflicto y permite descartar el cambio local" classname="pe.upeu.agrosierra.RegresionesTest" time="0.046"/>
+  <testcase name="otra cuenta no puede modificar ni descartar el pendiente ajeno" classname="pe.upeu.agrosierra.RegresionesTest" time="0.017"/>
+  <testcase name="cambio de cuenta detiene el envio sin mezclar credenciales" classname="pe.upeu.agrosierra.RegresionesTest" time="0.021"/>
+  <testcase name="RN02 calcula 24 horas usando instantes con cualquier desplazamiento" classname="pe.upeu.agrosierra.RegresionesTest" time="0.16"/>
+  <testcase name="perfil pendiente no restaura una sesion cerrada" classname="pe.upeu.agrosierra.RegresionesTest" time="0.016"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

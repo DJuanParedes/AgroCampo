@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.upeu.agrosierra.AgroViewModelTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-27T20:08:54" hostname="JUAN_PC" time="0.125">
+  <properties/>
+  <testcase name="reintentar cierre repite el cierre y no otra sincronizacion[jvm]" classname="pe.upeu.agrosierra.AgroViewModelTest" time="0.038"/>
+  <testcase name="salir cancela la sincronizacion activa y limpia el estado[jvm]" classname="pe.upeu.agrosierra.AgroViewModelTest" time="0.011"/>
+  <testcase name="reintentar envio no vuelve a crear el registro local[jvm]" classname="pe.upeu.agrosierra.AgroViewModelTest" time="0.076"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

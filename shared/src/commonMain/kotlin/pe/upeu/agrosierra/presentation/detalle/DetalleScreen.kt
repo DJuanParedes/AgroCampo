@@ -24,6 +24,11 @@ import pe.upeu.agrosierra.presentation.listado.*
     val permisos = s.sesion?.privilegios ?: emptySet()
     var confirmarCierre by remember { mutableStateOf(false) }
     var borrar by remember { mutableStateOf<Labor?>(null) }
+    var descartar by remember { mutableStateOf<Labor?>(null) }
+    descartar?.let { labor -> AlertDialog(onDismissRequest = { descartar = null }, title = { Text("¿Descartar el cambio local?") },
+        text = { Text("El cambio pendiente se quita del dispositivo. No se elimina ningún registro del servidor.") },
+        confirmButton = { TextButton(onClick = { descartar = null; vm.descartar(labor) }) { Text("Descartar cambio") } },
+        dismissButton = { TextButton(onClick = { descartar = null }) { Text("Conservar") } }) }
     if (confirmarCierre) AlertDialog(onDismissRequest = { confirmarCierre = false }, title = { Text("¿Cerrar campaña?") },
         text = { Text("Después no se podrán registrar ni corregir labores en este lote.") },
         confirmButton = { TextButton(onClick = { confirmarCierre = false; vm.cerrar() }) { Text("Cerrar campaña") } },
@@ -51,10 +56,13 @@ import pe.upeu.agrosierra.presentation.listado.*
                     Text("Responsable: ${labor.responsable}")
                     if (labor.observacion.isNotBlank()) Text(labor.observacion)
                     if (labor.pendiente) Text("Pendiente de sincronizar · ID ${labor.id}", color = MaterialTheme.colorScheme.tertiary)
+                    labor.errorSincronizacion?.let { Text(it, color = MaterialTheme.colorScheme.error) }
                     Row {
                         if (labor.id in s.editables && !lote.campaniaCerrada) TextButton(onClick = { vm.formulario(labor) }) { Text("Corregir") }
                         if ("LABOR_ELIMINAR" in permisos) TextButton(onClick = { borrar = labor }) { Text("Eliminar") }
                     }
+                    if (labor.pendiente && labor.propietarioPendiente == s.sesion?.usuarioId)
+                        TextButton(onClick = { descartar = labor }) { Text("Descartar cambio local") }
                 }
             }
         }

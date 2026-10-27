@@ -21,7 +21,7 @@ Las capturas se obtienen del emulador real; las pruebas indican motor, fecha y r
 1. LoginScreen → AgroViewModel.login → SesionRepositoryImpl → AgroApi → ClienteHttp.
 2. El backend valida BCrypt y firma JWT. /usuarios/me completa el perfil.
 3. AlmacenSeguroAndroid usa EncryptedSharedPreferences y MasterKey respaldada por Keystore.
-4. ClienteHttp añade Authorization en defaultRequest; MapeoErrores borra la sesión en 401 y la conserva en 403.
+4. El plugin AutorizacionAgro de ClienteHttp añade Authorization con el token de la operación; MapeoErrores borra solo esa sesión en 401 y la conserva en 403.
 5. ListadoScreen observa AgroUiState. AgroRepositoryImpl observa BaseLocal.lotes mediante SQLDelight.asFlow.
 6. GuardarLaborUseCase valida formato; el repositorio guarda con ID negativo y encola POST.
 7. SincronizarUseCase ejecuta primero la cola y después descarga todas las páginas.
@@ -30,3 +30,9 @@ Las capturas se obtienen del emulador real; las pruebas indican motor, fecha y r
 10. commonTest usa MockEngine y un driver SQLite en memoria real, no una lista falsa como base de datos.
 
 La defensa individual requiere comprender y mostrar este recorrido en ejecución.
+
+## Correcciones posteriores a la auditoría: versión 1.1
+
+Rama fix/sincronizacion-sesiones: conflictos persistentes por fila, descarte de cambios locales,
+identidad fija por petición, cancelación al cerrar sesión, reintento de la acción fallida y plazo UTC.
+Se mantienen las fechas reales y la etiqueta original v1.0-unidad2. La versión corregida se publica como v1.1-unidad2.

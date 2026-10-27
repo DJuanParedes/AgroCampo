@@ -1,0 +1,44 @@
+[
+  {
+    "fase": "creacion",
+    "fecha": "2026-10-27T20:17:29.914214+00:00",
+    "coincidencias": 1,
+    "filas": [
+      {
+        "id": 34,
+        "loteId": 2,
+        "tipo": "RIEGO",
+        "fecha": "2026-10-27",
+        "responsable": "Jefe de campo",
+        "cantidad": 2.0,
+        "observacion": "PruebaCRUD_1_1",
+        "responsableId": 2,
+        "creadaEn": "2026-10-27T20:16:26.569154Z"
+      }
+    ]
+  },
+  {
+    "fase": "correccion",
+    "fecha": "2026-10-27T20:18:13.257998+00:00",
+    "coincidencias": 1,
+    "filas": [
+      {
+        "id": 34,
+        "loteId": 2,
+        "tipo": "RIEGO",
+        "fecha": "2026-10-27",
+        "responsable": "Jefe de campo",
+        "cantidad": 3.0,
+        "observacion": "PruebaCRUD_1_1",
+        "responsableId": 2,
+        "creadaEn": "2026-10-27T20:16:26.569154Z"
+      }
+    ]
+  },
+  {
+    "fase": "eliminacion",
+    "fecha": "2026-10-27T20:18:56.470498+00:00",
+    "coincidencias": 0,
+    "filas": []
+  }
+]

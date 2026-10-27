@@ -53,7 +53,7 @@ class RegresionesTest {
             assertEquals(2, posts); assertEquals(2, gets); assertEquals(1, r.enviados)
             assertEquals(1, r.conflictos.size); assertEquals(1, e.local.pendientes().size)
             assertEquals("Máximo 9", (r.conflictos.single().error as ErrorApi.Validacion).campos["cantidad"])
-            assertEquals("Dosis excedida", e.local.labor(r.conflictos.single().idLocal)?.errorSincronizacion)
+            assertEquals("cantidad: Máximo 9", e.local.labor(r.conflictos.single().idLocal)?.errorSincronizacion)
         } finally { e.cerrar() }
     }
     @Test fun `cambio de cuenta detiene el envio sin mezclar credenciales`() = runTest {

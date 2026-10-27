@@ -123,7 +123,9 @@ class AgroRepositoryImpl(private val api: AgroApi, private val local: BaseLocal,
                 } catch (e: ErrorApi) {
                     if (e == ErrorApi.NoAutorizado || e == ErrorApi.SinConexion || e == ErrorApi.TiempoAgotado) throw e
                     asegurar(u)
-                    local.conflicto(fila.id, e.message)
+                    val motivo = if (e is ErrorApi.Validacion && e.campos.isNotEmpty())
+                        e.campos.entries.joinToString("; ") { "${it.key}: ${it.value}" } else e.message
+                    local.conflicto(fila.id, motivo)
                     conflictos += ConflictoSync(fila.id, fila.loteId, e)
                 }
             }

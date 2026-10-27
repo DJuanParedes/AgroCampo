@@ -8,8 +8,13 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.util.AttributeKey
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 import pe.upeu.agrosierra.data.local.AlmacenSeguro
+
+val TokenSesion = AttributeKey<String>("AgroTokenSesion")
+class SesionCambiada : CancellationException("La sesión de esta operación ya no está activa")
 
 fun crearClienteHttp(engine: HttpClientEngine, config: ApiConfig, almacen: AlmacenSeguro) = HttpClient(engine) {
     expectSuccess = false
@@ -22,7 +27,16 @@ fun crearClienteHttp(engine: HttpClientEngine, config: ApiConfig, almacen: Almac
     defaultRequest {
         url(config.baseUrl)
         contentType(ContentType.Application.Json)
-        // La cabecera se añade aquí para todas las operaciones protegidas.
-        if (!url.encodedPath.endsWith("auth/login")) almacen.leer()?.let { bearerAuth(it.token) }
     }
+    install(io.ktor.client.plugins.api.createClientPlugin("AutorizacionAgro") {
+        onRequest { request, _ ->
+            if (!request.url.encodedPath.endsWith("auth/login")) {
+                val token = request.attributes.getOrNull(TokenSesion) ?: almacen.leer()?.token
+                if (token != null) {
+                    if (almacen.leer()?.token != token) throw SesionCambiada()
+                    request.bearerAuth(token)
+                }
+            }
+        }
+    })
 }

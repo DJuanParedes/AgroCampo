@@ -34,7 +34,7 @@ import pe.upeu.agrosierra.presentation.perfil.PerfilScreen
                 Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer), modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     Column(Modifier.padding(12.dp)) {
                         Text(error.message)
-                        if (error == ErrorApi.Servidor || error == ErrorApi.TiempoAgotado) TextButton(onClick = vm::sync) { Text("Reintentar") }
+                        if (error == ErrorApi.Servidor || error == ErrorApi.TiempoAgotado) TextButton(onClick = vm::reintentar) { Text("Reintentar") }
                         TextButton(onClick = vm::limpiarMensaje) { Text("Entendido") }
                     }
                 }

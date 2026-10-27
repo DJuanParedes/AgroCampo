@@ -21,6 +21,7 @@ CREATE TABLE cola (
  propietario INTEGER NOT NULL
 );
 CREATE TABLE metadata (clave TEXT NOT NULL PRIMARY KEY, valor TEXT NOT NULL);
+CREATE TABLE conflicto (laborId INTEGER NOT NULL PRIMARY KEY, mensaje TEXT NOT NULL);
 
 observarLotes:
 SELECT * FROM lote
@@ -39,10 +40,16 @@ guardarLote:
 INSERT OR REPLACE INTO lote VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 observarLaboresPorLote:
-SELECT * FROM labor WHERE loteId = ? AND id NOT IN (SELECT laborId FROM cola WHERE operacion = 'DELETE') ORDER BY fecha DESC, id DESC;
+SELECT labor.*, conflicto.mensaje, cola.propietario FROM labor
+LEFT JOIN conflicto ON conflicto.laborId = labor.id
+LEFT JOIN cola ON cola.laborId = labor.id
+WHERE loteId = ? AND (cola.operacion IS NULL OR cola.operacion != 'DELETE' OR conflicto.mensaje IS NOT NULL)
+ORDER BY fecha DESC, id DESC;
 
 laborPorId:
-SELECT * FROM labor WHERE id = ?;
+SELECT labor.*, conflicto.mensaje, cola.propietario FROM labor
+LEFT JOIN conflicto ON conflicto.laborId = labor.id
+LEFT JOIN cola ON cola.laborId = labor.id WHERE labor.id = ?;
 
 guardarLabor:
 INSERT OR REPLACE INTO labor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -70,3 +77,9 @@ INSERT OR REPLACE INTO metadata VALUES (?, ?);
 
 leerMetadata:
 SELECT valor FROM metadata WHERE clave = ?;
+
+guardarConflicto:
+INSERT OR REPLACE INTO conflicto VALUES (?, ?);
+
+borrarConflicto:
+DELETE FROM conflicto WHERE laborId = ?;

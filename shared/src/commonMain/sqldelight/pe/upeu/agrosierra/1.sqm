@@ -1,0 +1,1 @@
+CREATE TABLE conflicto (laborId INTEGER NOT NULL PRIMARY KEY, mensaje TEXT NOT NULL);

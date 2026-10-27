@@ -117,4 +117,27 @@ class AgroRepositoryTest {
             assertTrue(local.lotes("Colca", "inexistente").first().isEmpty())
         } finally { driver.close() }
     }
+    @Test fun `SC A combina campania abierta valle y busqueda sin conexion`() = runTest {
+        val driver = driverEnMemoria()
+        try {
+            val local = BaseLocal(driver)
+            local.guardar(lote)
+            local.guardar(lote.copy(id = 2, codigo = "LOT-002", campaniaCerrada = true))
+            local.guardar(lote.copy(id = 3, codigo = "LOT-003", valle = "Colca"))
+            assertEquals(listOf(lote), local.lotes("Mantaro", "001", false).first())
+            assertTrue(local.lotes("Mantaro", "002", false).first().isEmpty())
+            assertEquals(2L, local.lotes("Mantaro", "002", true).first().single().id)
+            assertEquals(3, local.lotes("", "", null).first().size)
+        } finally { driver.close() }
+    }
+    @Test fun `SC A el filtro observable se actualiza al cambiar la campania`() = runTest {
+        val driver = driverEnMemoria()
+        try {
+            val local = BaseLocal(driver); local.guardar(lote)
+            assertEquals(1, local.lotes("", "", false).first().size)
+            local.guardar(lote.copy(campaniaCerrada = true))
+            assertTrue(local.lotes("", "", false).first().isEmpty())
+            assertEquals(1, local.lotes("", "", true).first().size)
+        } finally { driver.close() }
+    }
 }

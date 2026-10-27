@@ -102,3 +102,9 @@ Cubre conversión DTO, errores de validación, 401/403, registro offline, orden 
 sustitución sin duplicados, 204, cabecera común, caducidad y filtros locales.
 Informes HTML: shared/build/reports/tests/. Consulte docs/TRAZABILIDAD.md para recorrer el código en la defensa.
 Las evidencias y la lista de cotejo se guardan en evidencias/.
+
+## SC-A: todos los filtros
+
+Rama `sc-a-paredes`. El padrón combina valle, nombre/código y estado (todas, solo abiertas, solo cerradas).
+La combinación se ejecuta en SQLDelight y funciona sin conexión. El composable representa el resultado observado.
+Véase docs/SC-A.md y las dos pruebas adicionales de commonTest.

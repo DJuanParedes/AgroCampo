@@ -26,6 +26,7 @@ observarLotes:
 SELECT * FROM lote
 WHERE (:valle = '' OR valle = :valle)
 AND (:busqueda = '' OR nombre LIKE '%' || :busqueda || '%' OR codigo LIKE '%' || :busqueda || '%')
+AND (:estado IS NULL OR campaniaCerrada = :estado)
 ORDER BY codigo;
 
 todosLotes:

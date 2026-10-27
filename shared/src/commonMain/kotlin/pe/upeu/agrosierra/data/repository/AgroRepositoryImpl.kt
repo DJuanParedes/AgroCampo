@@ -14,7 +14,7 @@ import kotlin.random.Random
 class AgroRepositoryImpl(private val api: AgroApi, private val local: BaseLocal,
     private val sesiones: SesionRepository) : AgroRepository {
     private val mutex = Mutex()
-    override fun observarLotes(valle: String, busqueda: String) = local.lotes(valle, busqueda)
+    override fun observarLotes(valle: String, busqueda: String, estado: Boolean?) = local.lotes(valle, busqueda, estado)
     override fun observarLabores(loteId: Long) = local.labores(loteId)
     override suspend fun lote(id: Long) = withContext(Dispatchers.Default) { local.lote(id) }
     override fun ultimaSincronizacion() = local.metadata("ultimaSincronizacion")

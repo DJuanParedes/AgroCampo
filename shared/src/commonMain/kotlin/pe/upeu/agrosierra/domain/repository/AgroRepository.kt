@@ -5,7 +5,7 @@ import pe.upeu.agrosierra.domain.model.*
 
 data class ResumenSync(val enviados: Int, val recibidos: Int, val fecha: String)
 interface AgroRepository {
-    fun observarLotes(valle: String, busqueda: String): Flow<List<Lote>>
+    fun observarLotes(valle: String, busqueda: String, estado: Boolean? = null): Flow<List<Lote>>
     fun observarLabores(loteId: Long): Flow<List<Labor>>
     suspend fun lote(id: Long): Lote?
     suspend fun guardar(labor: Labor): Labor

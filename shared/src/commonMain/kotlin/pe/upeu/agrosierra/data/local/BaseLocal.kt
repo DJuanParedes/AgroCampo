@@ -11,7 +11,7 @@ import pe.upeu.agrosierra.domain.model.*
 class BaseLocal(driver: SqlDriver) {
     val db = AgroDb(driver)
     private val q = db.agroDbQueries
-    fun lotes(valle: String, busqueda: String) = q.observarLotes(valle, busqueda).asFlow().mapToList(Dispatchers.Default).map { rows ->
+    fun lotes(valle: String, busqueda: String, estado: Boolean? = null) = q.observarLotes(valle, busqueda, estado?.let { if (it) 1L else 0L }).asFlow().mapToList(Dispatchers.Default).map { rows ->
         rows.map { Lote(it.id, it.codigo, it.nombre, it.hectareas, it.cultivo, it.valle, it.campaniaCerrada == 1L, it.dosisMaxima) }
     }
     fun todosLotes() = q.todosLotes().executeAsList().map { Lote(it.id, it.codigo, it.nombre, it.hectareas, it.cultivo, it.valle, it.campaniaCerrada == 1L, it.dosisMaxima) }

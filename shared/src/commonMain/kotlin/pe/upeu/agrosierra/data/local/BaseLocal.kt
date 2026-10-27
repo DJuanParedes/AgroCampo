@@ -19,17 +19,19 @@ class BaseLocal(driver: SqlDriver) {
         Lote(it.id, it.codigo, it.nombre, it.hectareas, it.cultivo, it.valle, it.campaniaCerrada == 1L, it.dosisMaxima)
     }
     fun labores(id: Long) = q.observarLaboresPorLote(id).asFlow().mapToList(Dispatchers.Default).map { rows -> rows.map { fila ->
-        Labor(fila.id, fila.loteId, TipoLabor.valueOf(fila.tipo), fila.fecha, fila.responsable, fila.cantidad, fila.observacion, fila.pendiente == 1L, fila.responsableId, fila.creadaEn)
+        Labor(fila.id, fila.loteId, TipoLabor.valueOf(fila.tipo), fila.fecha, fila.responsable, fila.cantidad, fila.observacion, fila.pendiente == 1L, fila.responsableId, fila.creadaEn, fila.mensaje, fila.propietario)
     } }
     fun labor(id: Long) = q.laborPorId(id).executeAsOneOrNull()?.let {
-        Labor(it.id, it.loteId, TipoLabor.valueOf(it.tipo), it.fecha, it.responsable, it.cantidad, it.observacion, it.pendiente == 1L, it.responsableId, it.creadaEn)
+        Labor(it.id, it.loteId, TipoLabor.valueOf(it.tipo), it.fecha, it.responsable, it.cantidad, it.observacion, it.pendiente == 1L, it.responsableId, it.creadaEn, it.mensaje, it.propietario)
     }
     fun guardar(l: Lote) = q.guardarLote(l.id, l.codigo, l.nombre, l.hectareas, l.cultivo, l.valle, if (l.campaniaCerrada) 1 else 0, l.dosisMaximaPorHectarea)
     fun guardar(l: Labor) = q.guardarLabor(l.id, l.loteId, l.tipo.name, l.fecha, l.responsable, l.cantidad, l.observacion, if (l.pendiente) 1 else 0, l.responsableId, l.creadaEn)
     fun idLocal() = minOf(-1L, q.siguienteIdLocal().executeAsOne() - 1)
     fun encolar(id: Long, op: String, clave: String, propietario: Long) = q.encolar(id, op, clave, propietario)
     fun pendientes() = q.pendientes().executeAsList()
-    fun borrar(id: Long) { q.borrarLabor(id); q.desencolar(id) }
+    fun borrar(id: Long) { q.borrarLabor(id); q.desencolar(id); q.borrarConflicto(id) }
+    fun conflicto(id: Long, mensaje: String) = q.guardarConflicto(id, mensaje)
+    fun limpiarConflicto(id: Long) = q.borrarConflicto(id)
     fun sustituir(local: Long, definitiva: Labor) = db.transaction { borrar(local); guardar(definitiva) }
     fun refrescar(lote: Long, labores: List<Labor>) = db.transaction {
         q.borrarRemotasDelLote(lote)

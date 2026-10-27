@@ -2,7 +2,7 @@ plugins { id("com.android.application"); kotlin("android"); id("org.jetbrains.ko
 android {
     namespace = "pe.upeu.agrosierra"
     compileSdk = 35
-    defaultConfig { applicationId = "pe.upeu.agrosierra"; minSdk = 26; targetSdk = 35; versionCode = 1; versionName = "1.0" }
+    defaultConfig { applicationId = "pe.upeu.agrosierra"; minSdk = 26; targetSdk = 35; versionCode = 2; versionName = "1.1" }
     buildFeatures { compose = true; buildConfig = true }
     buildTypes {
         debug { buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/api/v1/\"") }

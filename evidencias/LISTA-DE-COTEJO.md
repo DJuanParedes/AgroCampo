@@ -19,10 +19,10 @@ Fecha de verificación: 27 de octubre de 2026. Desarrollo asistido con IA.
 | 13 | Modo avión | 03-detalle-modo-avion.png |
 | 14 | Registro pendiente con ID provisional | 04-registro-pendiente.png, ID -1 |
 | 15 | Sin duplicar ni perder al sincronizar | 05-registro-sincronizado.png; servidor: una coincidencia, ID 21 |
-| 16 | commonTest | diez pruebas en JVM y diez en Android |
+| 16 | commonTest | 25 pruebas en JVM y 25 en Android en la versión corregida 1.1 |
 | 17 | Historial distribuido en varias fechas | NO ACREDITADO: proyectos creados hoy, fechas reales |
 | 18 | Integración desde develop | pull requests y merges, salvo el commit documental inicial |
-| 19 | Convención y etiqueta | mensajes en español; v1.0-unidad2 se publica al cierre verificado |
+| 19 | Convención y etiqueta | mensajes en español; v1.0-unidad2 original conservada y v1.1-unidad2 para las correcciones |
 | 20 | Tres commits durante el bloque de examen | SC-A tiene tres commits reales; el contexto de examen supervisado debe acreditarlo el estudiante |
 
 La calificación de la defensa depende de que el estudiante explique el código en ejecución.

@@ -12,7 +12,7 @@ class AlmacenSeguroAndroid(context: Context) : AlmacenSeguro {
         MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
-    override fun leer(): Sesion? {
+    @Synchronized override fun leer(): Sesion? {
         val raw = preferencias.getString("sesion", null) ?: return null
         return try {
             val j = JSONObject(raw); val permisos = j.getJSONArray("privilegios")
@@ -21,11 +21,16 @@ class AlmacenSeguroAndroid(context: Context) : AlmacenSeguro {
                 j.getString("nombre"), j.getLong("usuarioId"), j.getLong("venceEn"))
         } catch (_: Exception) { borrar(); null }
     }
-    override fun guardar(sesion: Sesion) {
+    @Synchronized override fun guardar(sesion: Sesion) {
         val j = JSONObject().put("token", sesion.token).put("usuario", sesion.usuario)
             .put("rol", sesion.rol).put("privilegios", org.json.JSONArray(sesion.privilegios.toList()))
             .put("nombre", sesion.nombre).put("usuarioId", sesion.usuarioId).put("venceEn", sesion.venceEn)
         check(preferencias.edit().putString("sesion", j.toString()).commit()) { "No se pudo guardar la sesión" }
     }
-    override fun borrar() { check(preferencias.edit().clear().commit()) { "No se pudo borrar la sesión" } }
+    @Synchronized override fun borrar() { check(preferencias.edit().clear().commit()) { "No se pudo borrar la sesión" } }
+    @Synchronized override fun borrarSiToken(token: String) { if (leer()?.token == token) borrar() }
+    @Synchronized override fun guardarSiToken(token: String, sesion: Sesion): Boolean {
+        if (leer()?.token != token) return false
+        guardar(sesion); return true
+    }
 }

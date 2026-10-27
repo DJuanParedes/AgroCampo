@@ -3,6 +3,7 @@ package pe.upeu.agrosierra
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.compose.BackHandler
 import androidx.core.view.WindowCompat
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val vm: AgroViewModel = viewModel { GlobalContext.get().get<AgroViewModel>() }
             val estado by vm.estado.collectAsStateWithLifecycle()
+            BackHandler(estado.seleccionado != null || estado.perfil || estado.formulario) { vm.volver() }
             AgroTheme { AgroApp(estado, vm) }
         }
     }

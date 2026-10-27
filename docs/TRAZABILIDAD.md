@@ -9,6 +9,8 @@ Los repositorios nuevos no acreditan el historial de semanas previas que pide la
 | feature/offline-pruebas | pruebas con MockEngine y SQLite en memoria; reintentos idempotentes |
 | feature/documentacion-evidencias | ejecución, defensa, capturas y documentación |
 | sc-a-paredes | filtros combinados offline por valle, búsqueda y campañas abiertas |
+| fix/ci-android | SDK vigente en CI y contraste de barras del sistema |
+| feature/evidencias-finales | pantallas en commonMain, cierre de sesión y cotejo final |
 
 Cada rama se integra mediante pull request hacia develop, con descripción y verificaciones.
 main recibe la integración desde develop. La etiqueta v1.0-unidad2 identifica la versión evaluable.

@@ -39,7 +39,7 @@ Código compartido: shared/src/commonMain/kotlin/pe/upeu/agrosierra/.
 | presentation/listado | ViewModel, StateFlow y UiState |
 | di | módulos de red, datos, dominio y presentación |
 
-La UI Compose de Android vive en androidApp/src/main/kotlin/pe/upeu/agrosierra/presentation/:
+La UI Compose compartida vive en shared/src/commonMain/kotlin/pe/upeu/agrosierra/presentation/:
 sesion, listado, detalle, perfil, navigation y theme. Android contiene AlmacenSeguroAndroid,
 BaseLocalAndroid, PlatformModule.android y el monitor de conectividad.
 El módulo compartido tiene destinos Android y JVM (para pruebas); la evaluación exige Android.

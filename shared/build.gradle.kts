@@ -28,6 +28,7 @@ kotlin {
             implementation("io.ktor:ktor-client-mock:3.0.3")
         }
         androidMain.dependencies { implementation("app.cash.sqldelight:android-driver:2.0.2") }
+        getByName("androidUnitTest").dependencies { implementation("app.cash.sqldelight:sqlite-driver:2.0.2") }
         jvmTest.dependencies { implementation("app.cash.sqldelight:sqlite-driver:2.0.2") }
     }
 }

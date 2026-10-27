@@ -67,7 +67,16 @@ class AgroRepositoryImpl(private val api: AgroApi, private val local: BaseLocal,
             local.pendientes().filter { it.propietario == u.usuarioId }.forEach { pendiente ->
                 val fila = local.labor(pendiente.laborId) ?: return@forEach
                 when (pendiente.operacion) {
-                    "POST" -> local.sustituir(fila.id, api.crear(fila, pendiente.clave).aDominio())
+                    "POST" -> {
+                        var remota = api.crear(fila, pendiente.clave).aDominio()
+                        // Si la primera respuesta se perdió y el usuario corrigió la fila,
+                        // el POST idempotente devuelve el original: aplicar después la corrección.
+                        if (remota.tipo != fila.tipo || remota.fecha != fila.fecha ||
+                            remota.cantidad != fila.cantidad || remota.observacion != fila.observacion) {
+                            remota = api.editar(fila.copy(id = remota.id)).aDominio()
+                        }
+                        local.sustituir(fila.id, remota)
+                    }
                     "PUT" -> local.sustituir(fila.id, api.editar(fila).aDominio())
                     "DELETE" -> {
                         try { api.eliminar(fila.id) } catch (e: ErrorApi.NoEncontrado) { /* Ya eliminada: operación idempotente. */ }

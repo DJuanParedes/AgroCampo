@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.upeu.agrosierra.AgroRepositoryTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-27T19:41:46" hostname="JUAN_PC" time="1.685">
+  <properties/>
+  <testcase name="sesion vencida se descarta sin consultar red[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.508"/>
+  <testcase name="sincronizacion sube antes de bajar y sustituye la fila sin duplicarla[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="1.068"/>
+  <testcase name="204 no intenta deserializar cuerpo y cabecera es centralizada[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.013"/>
+  <testcase name="DTO convierte al dominio sin anotaciones de transporte[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.0"/>
+  <testcase name="SC A el filtro observable se actualiza al cambiar la campania[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.027"/>
+  <testcase name="400 conserva errores de campo[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.025"/>
+  <testcase name="SQLite filtra el padron local por valle y nombre[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.009"/>
+  <testcase name="401 borra sesion mientras 403 la conserva[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.013"/>
+  <testcase name="registro offline persiste con ID negativo y marca pendiente[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.009"/>
+  <testcase name="SC A combina campania abierta valle y busqueda sin conexion[jvm]" classname="pe.upeu.agrosierra.AgroRepositoryTest" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+]]></system-err>
+</testsuite>

@@ -1,0 +1,72 @@
+CREATE TABLE lote (
+ id INTEGER NOT NULL PRIMARY KEY,
+ codigo TEXT NOT NULL, nombre TEXT NOT NULL,
+ hectareas REAL NOT NULL, cultivo TEXT NOT NULL,
+ valle TEXT NOT NULL, campaniaCerrada INTEGER NOT NULL,
+ dosisMaxima REAL NOT NULL
+);
+CREATE TABLE labor (
+ id INTEGER NOT NULL PRIMARY KEY,
+ loteId INTEGER NOT NULL, tipo TEXT NOT NULL,
+ fecha TEXT NOT NULL, responsable TEXT NOT NULL,
+ cantidad REAL NOT NULL, observacion TEXT NOT NULL,
+ pendiente INTEGER NOT NULL,
+ responsableId INTEGER NOT NULL DEFAULT 0,
+ creadaEn TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE cola (
+ laborId INTEGER NOT NULL PRIMARY KEY,
+ operacion TEXT NOT NULL,
+ clave TEXT NOT NULL,
+ propietario INTEGER NOT NULL
+);
+CREATE TABLE metadata (clave TEXT NOT NULL PRIMARY KEY, valor TEXT NOT NULL);
+
+observarLotes:
+SELECT * FROM lote
+WHERE (:valle = '' OR valle = :valle)
+AND (:busqueda = '' OR nombre LIKE '%' || :busqueda || '%' OR codigo LIKE '%' || :busqueda || '%')
+AND (:estado IS NULL OR campaniaCerrada = :estado)
+ORDER BY codigo;
+
+todosLotes:
+SELECT * FROM lote ORDER BY codigo;
+
+lotePorId:
+SELECT * FROM lote WHERE id = ?;
+
+guardarLote:
+INSERT OR REPLACE INTO lote VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+observarLaboresPorLote:
+SELECT * FROM labor WHERE loteId = ? AND id NOT IN (SELECT laborId FROM cola WHERE operacion = 'DELETE') ORDER BY fecha DESC, id DESC;
+
+laborPorId:
+SELECT * FROM labor WHERE id = ?;
+
+guardarLabor:
+INSERT OR REPLACE INTO labor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+siguienteIdLocal:
+SELECT COALESCE(MIN(id), 0) FROM labor;
+
+borrarLabor:
+DELETE FROM labor WHERE id = ?;
+
+borrarRemotasDelLote:
+DELETE FROM labor WHERE loteId = ? AND pendiente = 0;
+
+encolar:
+INSERT OR REPLACE INTO cola VALUES (?, ?, ?, ?);
+
+pendientes:
+SELECT * FROM cola ORDER BY laborId;
+
+desencolar:
+DELETE FROM cola WHERE laborId = ?;
+
+guardarMetadata:
+INSERT OR REPLACE INTO metadata VALUES (?, ?);
+
+leerMetadata:
+SELECT valor FROM metadata WHERE clave = ?;
